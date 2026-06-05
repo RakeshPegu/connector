@@ -1,53 +1,80 @@
-import { userModel } from "#models/db.js";
-import { catchAsync } from "#utils/catchAsync.js";
-import { AppError } from "#utils/errorHandler.js";
-import { generateTokens } from "#utils/generateToken.js";
+import { type Request, type Response } from 'express'
+import { userModel } from '#models/db.js'
+import { catchAsync } from '#utils/catchAsync.js'
+import { AppError } from '#utils/errorHandler.js'
+import { generateTokens } from '#utils/generateToken.js'
 import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
-import {Types} from "mongoose";
-interface UserInfo {
-    username: string,
-    email:string,
-    password:string
-
-}
-interface Payload {
-    _id:Types.ObjectId,
-    role:string 
-}
-export const register = catchAsync(async(req, res)=>{
-    const {username, email, password} = req.body
-    if(!username || !email || !password){
-        throw new  AppError(400, 'All the fields are mandatory')
-    } 
-    const existingUser = await userModel.findOne({email:email})
-    if(existingUser){
-        throw new AppError(403, 'Account already exist' )
-    }
-    const hashPass = await bcrypt.hash(password, 10)
-    new userModel({username, email, password:hashPass}).save()
-    res.status(200).json({message:"Account created successfully"})
-    
-
-
+import { Types } from 'mongoose'
+import {z} from 'zod'
+export const registerSchema =z.object({
+    username: z.string().min(3, 'Username must be at least 3 characters'),
+    email:z.email('Email must be valid'),
+    password:z.string().min(3, 'Password must be atleast 6 characters')
 })
-export const login = catchAsync(async(req, res)=>{
-    const {email, password} = req.body
-    if(!email || !password){
-        throw new AppError(400, 'All the fields are mandatory')
+export const loginSchema = z.object({
+    email:z.email('Email must be valid'),
+    password:z.string().min(6, 'Password must be at least 6 characters')
+})
+export type RegisterInput = z.infer<typeof registerSchema>
+export type LoginInput = z.infer<typeof loginSchema>
+
+
+
+
+interface Payload {
+  _id: Types.ObjectId
+  role: string
+}
+
+export const register = catchAsync(async (req: Request, res: Response) => {
+  const { username, email, password } = registerSchema.parse(req.body)
+
+  const existingUser = await userModel.findOne({ email })
+  if (existingUser) {
+    throw new AppError(403, 'Account already exists')
+  }
+
+  const hashPass = await bcrypt.hash(password, 10)
+  await new userModel({ username, email, password: hashPass }).save()
+
+  res.status(201).json({ message: 'Account created successfully' })
+})
+
+export const login = catchAsync(async (req: Request, res: Response) => {
+  const { email, password } = loginSchema.parse(req.body)
+
+  const existingUser = await userModel.findOne({ email })
+  if (!existingUser) {
+    throw new AppError(404, 'Account not found')
+  }
+
+  const isValidPass = await bcrypt.compare(password, existingUser.password)
+  if (!isValidPass) {
+    throw new AppError(403, 'Wrong password')
+  }
+
+  const payload: Payload = {
+    _id: existingUser._id,
+    role: existingUser.role
+  }
+
+  const { access_token, refresh_token } = await generateTokens(payload)
+
+  res.cookie('refreshToken', refresh_token, {
+    maxAge: 1000 * 60 * 60 * 24 * 14,
+    httpOnly: true,
+    secure: false,
+    sameSite: 'none'
+  })
+
+  res.status(200).json({
+    message: 'Login successfully',
+    access_token,
+    user: {
+      _id: existingUser.id,
+      username: existingUser.username,
+      email: existingUser.email,
+      role: existingUser.role
     }
-    const existingUser = await userModel.findOne({email:email})
-    if(!existingUser){
-        throw new AppError(404, 'Account not found')
-    }
-    const isValidPass = await bcrypt.compare(password, existingUser?.password)
-    if(!isValidPass){
-        throw new AppError(403, 'Wrong password')
-    }
-    const payload:Payload = {
-        _id:existingUser._id,
-        role:existingUser.role
-    }
-    const {access_token, refresh_token} = await generateTokens(payload)
-    
+  })
 })
