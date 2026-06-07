@@ -3,24 +3,26 @@ import { AppError } from "#utils/errorHandler.js"
 import { config } from "#config/config.js"
 import express from 'express'
 import jwt from 'jsonwebtoken'
-import {Types} from 'mongoose'
 import { type Request } from "express"
-type inRequest = Request&{
-    userId: Types.ObjectId,
-    userRole:string
+import { Types } from "mongoose"
+import { string } from "zod"
+interface Payload{
+    _id:Types.ObjectId,
+    role:string
 }
-export const verifyAccessToken=catchAsync(async(req:inRequest, res:express.Response,next:express.NextFunction)=>{
+export const verifyAccessToken=catchAsync(async(req:Request, res:express.Response,next:express.NextFunction)=>{
     const authHeader = req.headers['authorization']
     const access_token = authHeader && authHeader.split(' ')[1]
     if(!access_token){
         throw new AppError(401, 'Not authenticated')
     }
-    const isVerified = jwt.verify(access_token,  config.accessSecretKey)
-    if(!isVerified){
+    const  verified = jwt.verify(access_token,  config.accessSecretKey)
+    if(typeof verified === 'string' ||!verified){
         throw new AppError(403, 'Not authorized')
     }
-    // req.userId = isVerified._id,
-    // req.userRole = isVerified.role
+    const payload :Payload = verified as Payload
+    req.userId = payload?._id
+    req.userRole = payload?.role
     next()
 
 })

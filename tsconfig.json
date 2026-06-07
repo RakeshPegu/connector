@@ -8,7 +8,7 @@
       "@routes/*": ["src/routes/*"],
       "@config/*": ["src/config/*"],
       "@services/*": ["src/services/*" ],
-      "@middlewares/*": ["src/middleware/*"]
+      "@middlewares/*": ["src/middlewares/*"]
     },
     "rootDir": "./src",
     "outDir": "./dist",

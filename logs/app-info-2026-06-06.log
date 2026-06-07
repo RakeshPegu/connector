@@ -1,0 +1,53 @@
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T05:27:32.176Z"}
+{"level":"info","message":"Received shutdown signal, closing server","service":"Connector application","signal":"SIGINT","timestamp":"2026-06-06T05:34:23.500Z"}
+{"level":"info","message":"Database disconnected","service":"Connector application","timestamp":"2026-06-06T05:34:23.503Z"}
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T05:43:25.018Z"}
+{"level":"info","message":"Database connected successfully","service":"Connector application","timestamp":"2026-06-06T05:43:27.045Z"}
+{"level":"info","message":"Received shutdown signal, closing server","service":"Connector application","signal":"SIGINT","timestamp":"2026-06-06T05:49:06.229Z"}
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T05:49:38.363Z"}
+{"level":"info","message":"Database connected successfully","service":"Connector application","timestamp":"2026-06-06T05:49:40.013Z"}
+{"level":"info","message":"Received shutdown signal, closing server","service":"Connector application","signal":"SIGINT","timestamp":"2026-06-06T05:49:43.339Z"}
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T05:50:33.944Z"}
+{"level":"info","message":"Database connected successfully","service":"Connector application","timestamp":"2026-06-06T05:50:35.432Z"}
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T05:50:58.899Z"}
+{"level":"info","message":"Database connected successfully","service":"Connector application","timestamp":"2026-06-06T05:51:00.481Z"}
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T05:51:47.210Z"}
+{"level":"info","message":"Database connected successfully","service":"Connector application","timestamp":"2026-06-06T05:51:48.957Z"}
+{"level":"info","service":"Connector application","timestamp":"2026-06-06T05:52:02.665Z"}
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T05:52:34.501Z"}
+{"level":"info","message":"Database connected successfully","service":"Connector application","timestamp":"2026-06-06T05:52:36.081Z"}
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T05:54:05.167Z"}
+{"level":"info","message":"Database connected successfully","service":"Connector application","timestamp":"2026-06-06T05:54:06.579Z"}
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T05:55:57.803Z"}
+{"level":"info","message":"Database connected successfully","service":"Connector application","timestamp":"2026-06-06T05:55:59.447Z"}
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T05:58:45.146Z"}
+{"level":"info","message":"Database connected successfully","service":"Connector application","timestamp":"2026-06-06T05:58:49.406Z"}
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T06:00:47.292Z"}
+{"level":"info","message":"Database connected successfully","service":"Connector application","timestamp":"2026-06-06T06:00:48.846Z"}
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T06:54:08.628Z"}
+{"level":"info","message":"Database connected successfully","service":"Connector application","timestamp":"2026-06-06T06:54:10.355Z"}
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T06:57:07.860Z"}
+{"level":"info","message":"Database connected successfully","service":"Connector application","timestamp":"2026-06-06T06:57:09.148Z"}
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T06:57:24.622Z"}
+{"level":"info","message":"Database connected successfully","service":"Connector application","timestamp":"2026-06-06T06:57:25.665Z"}
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T07:07:36.376Z"}
+{"level":"info","message":"Database connected successfully","service":"Connector application","timestamp":"2026-06-06T07:07:38.018Z"}
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T07:10:47.391Z"}
+{"level":"info","message":"Database connected successfully","service":"Connector application","timestamp":"2026-06-06T07:10:49.021Z"}
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T07:10:52.509Z"}
+{"level":"info","message":"Database connected successfully","service":"Connector application","timestamp":"2026-06-06T07:10:53.930Z"}
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T07:16:58.093Z"}
+{"level":"info","message":"Database connected successfully","service":"Connector application","timestamp":"2026-06-06T07:17:00.536Z"}
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T07:25:48.679Z"}
+{"level":"info","message":"Database connected successfully","service":"Connector application","timestamp":"2026-06-06T07:25:50.341Z"}
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T07:26:51.358Z"}
+{"level":"info","message":"Database connected successfully","service":"Connector application","timestamp":"2026-06-06T07:26:52.844Z"}
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T07:27:16.859Z"}
+{"level":"info","message":"Database connected successfully","service":"Connector application","timestamp":"2026-06-06T07:27:17.879Z"}
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T07:29:54.271Z"}
+{"level":"info","message":"Database connected successfully","service":"Connector application","timestamp":"2026-06-06T07:29:55.728Z"}
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T07:39:34.339Z"}
+{"level":"info","message":"Database connected successfully","service":"Connector application","timestamp":"2026-06-06T07:39:35.956Z"}
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T07:42:10.043Z"}
+{"level":"info","message":"Database connected successfully","service":"Connector application","timestamp":"2026-06-06T07:42:11.710Z"}
+{"level":"info","message":"The server is listening on port 5000","service":"Connector application","timestamp":"2026-06-06T07:49:07.596Z"}

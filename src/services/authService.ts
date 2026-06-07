@@ -1,11 +1,12 @@
-import { type Request, type Response } from 'express'
-import { userModel } from '#models/db.js'
+import { type NextFunction, type Request, type Response } from 'express'
+import { Session, userModel } from '#models/db.js'
 import { catchAsync } from '#utils/catchAsync.js'
 import { AppError } from '#utils/errorHandler.js'
 import { generateTokens } from '#utils/generateToken.js'
 import bcrypt from 'bcrypt'
 import { Types } from 'mongoose'
 import {z} from 'zod'
+import crypto from 'node:crypto'
 export const registerSchema =z.object({
     username: z.string().min(3, 'Username must be at least 3 characters'),
     email:z.email('Email must be valid'),
@@ -15,10 +16,9 @@ export const loginSchema = z.object({
     email:z.email('Email must be valid'),
     password:z.string().min(6, 'Password must be at least 6 characters')
 })
+// z.infer automatically generate typescript types from the schemas
 export type RegisterInput = z.infer<typeof registerSchema>
 export type LoginInput = z.infer<typeof loginSchema>
-
-
 
 
 interface Payload {
@@ -34,6 +34,7 @@ export const register = catchAsync(async (req: Request, res: Response) => {
     throw new AppError(403, 'Account already exists')
   }
 
+
   const hashPass = await bcrypt.hash(password, 10)
   await new userModel({ username, email, password: hashPass }).save()
 
@@ -41,12 +42,17 @@ export const register = catchAsync(async (req: Request, res: Response) => {
 })
 
 export const login = catchAsync(async (req: Request, res: Response) => {
+  const deviceId = req.headers['device-id']
+  console.log('this is device id', deviceId)
+  console.log(typeof deviceId)
+
   const { email, password } = loginSchema.parse(req.body)
 
   const existingUser = await userModel.findOne({ email })
   if (!existingUser) {
     throw new AppError(404, 'Account not found')
   }
+  Session.deleteMany(deviceId? {userId:existingUser.id, deviceId} : {userId:existingUser})
 
   const isValidPass = await bcrypt.compare(password, existingUser.password)
   if (!isValidPass) {
@@ -59,7 +65,9 @@ export const login = catchAsync(async (req: Request, res: Response) => {
   }
 
   const { access_token, refresh_token } = await generateTokens(payload)
-
+  const hashRefreshToken = crypto.createHash('sha256').update(refresh_token).digest('hex')
+  console.log('hashRefresh tken', hashRefreshToken)
+  await Session.create({userId:existingUser.id, refreshToken: hashRefreshToken, expiresAt: new Date(Date.now()+ 7*24*60*60*1000)})
   res.cookie('refreshToken', refresh_token, {
     maxAge: 1000 * 60 * 60 * 24 * 14,
     httpOnly: true,
@@ -77,4 +85,22 @@ export const login = catchAsync(async (req: Request, res: Response) => {
       role: existingUser.role
     }
   })
+})
+export const logout=catchAsync(async(req:Request, res:Response, next:NextFunction)=>{
+  const tokenUser = req.userId
+  if(!tokenUser){
+     throw new AppError(401, 'Authentication required')
+  }
+  Session.deleteOne({userId:tokenUser})
+  res.clearCookie('refreshToken').status(200).json({message:"Logged successfully", status:true})
+    
+
+
+})
+export const refreshToken = catchAsync(async(req:Request, res:Response, next:NextFunction)=>{
+    const payload = {_id:req.userId, role:req.userRole}
+    const {access_token, refresh_token} = await generateTokens(payload)
+    res.cookie('refreshToken',refresh_token, {maxAge:1000*60*60*24*14, httpOnly:true, secure:false, sameSite:'none'} )
+    res.status(200).json({access_token:access_token, status:true})
+
 })
