@@ -4,11 +4,11 @@ import { AppError } from "#utils/errorHandler.js";
 import { instance } from "#utils/razorpay.js";
 import { type Request, type Response, type NextFunction } from "express";
 import {z} from 'zod'
-const planSchema = z.object({
+export const planSchema = z.object({
     period: z.enum(['daily', 'weekly', 'monthly', 'yearly']),
     interval: z.number().min(1, 'Interval should be atleast 1'),
     name: z.string().min(6, 'Name must be atleast 6 characters'),
-    amount:z.number(),
+    amount:z.number().min(1, 'amount must be atleast 1 '),
     currency:z.string(),
     description: z.string().min(10, 'Description must be atleast 10 characters')
 })
@@ -29,6 +29,7 @@ export const createPlan = catchAsync(async(req:Request, res:Response, next:NextF
     const planDetails = await planModel.create({
        name:name,
        interval:interval,
+       razorpay_plan_id:response.id,
        amount:amount, 
        currency:currency,
        description:description

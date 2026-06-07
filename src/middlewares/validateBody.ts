@@ -18,7 +18,7 @@ export const validateBody = (schema:ZodSchema)=>{
                 return
             
             }
-            next()
+            next(error)
         
             
         }
