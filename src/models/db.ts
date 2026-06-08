@@ -1,4 +1,5 @@
 import mongoose, {  } from "mongoose";
+import { string } from "zod";
 
 const userSchema = new mongoose.Schema({
     username:{type:String, required:true},
@@ -92,6 +93,7 @@ const subscriptinSchema = new mongoose.Schema({
         type: Number,
         required:true
     },
+    razorpay_payment_id:String,
     status:{
         type:String,
         enum: ['created', 'authenticated', 'active', 'pending', 'halted', 'cancelled', 'expired'],
@@ -150,6 +152,7 @@ const subscriptinSchema = new mongoose.Schema({
         type:String,
         enum: ['success', 'failed', 'pending']
     },
+    
     last_payment_error: String,
     short_url: String,    
 

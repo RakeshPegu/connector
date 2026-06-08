@@ -15,7 +15,7 @@ export const validateBody = (schema) => {
                 // add return to prevent next() call after response
                 return;
             }
-            next();
+            next(error);
         }
     };
 };

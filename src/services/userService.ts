@@ -3,7 +3,7 @@ import { catchAsync } from "#utils/catchAsync.js";
 import { AppError } from "#utils/errorHandler.js";
 import {type Request, type Response} from 'express'
 import bcrypt from 'bcrypt'
-import z, { string } from "zod";
+import {z} from "zod";
 interface UserInfo{
     username:string,
     password:string
@@ -51,7 +51,7 @@ export const deleteAccount = catchAsync(async(req:Request, res:Response)=>{
     if(!user){
         throw new AppError(404, 'not found')
     }
-    const userInfo:UserInfo = user as UserInfo
+    const userInfo = user as UserInfo
     const isValidPassword = await bcrypt.compare(password, userInfo?.password)
     if(!isValidPassword){
         throw new AppError(403, 'wrong password')

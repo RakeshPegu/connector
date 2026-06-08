@@ -3,7 +3,7 @@ import { catchAsync } from "#utils/catchAsync.js";
 import { AppError } from "#utils/errorHandler.js";
 import {} from 'express';
 import bcrypt from 'bcrypt';
-import z, { string } from "zod";
+import { z } from "zod";
 export const deleteSchema = z.object({
     password: z.string().min(6, 'password must be atleast 6 characters ')
 });

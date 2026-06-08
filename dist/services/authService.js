@@ -35,7 +35,7 @@ export const login = catchAsync(async (req, res) => {
     if (!existingUser) {
         throw new AppError(404, 'Account not found');
     }
-    Session.deleteMany(deviceId ? { userId: existingUser.id, deviceId } : { userId: existingUser });
+    // delete existing session 
     const isValidPass = await bcrypt.compare(password, existingUser.password);
     if (!isValidPass) {
         throw new AppError(403, 'Wrong password');
