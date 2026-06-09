@@ -53,6 +53,7 @@ export const login = catchAsync(async (req: Request, res: Response) => {
     throw new AppError(404, 'Account not found')
   }
   // delete existing session 
+  await Session.deleteMany({userId:existingUser._id})
 
   const isValidPass = await bcrypt.compare(password, existingUser.password)
   if (!isValidPass) {
@@ -87,7 +88,7 @@ export const login = catchAsync(async (req: Request, res: Response) => {
   })
 })
 export const logout=catchAsync(async(req:Request, res:Response, next:NextFunction)=>{
-  const tokenUser = req.userId
+  const tokenUser = req.userId as Types.ObjectId
   if(!tokenUser){
      throw new AppError(401, 'Authentication required')
   }

@@ -5,7 +5,7 @@ import express from 'express'
 import jwt from 'jsonwebtoken'
 import { type Request } from "express"
 import { Types } from "mongoose"
-import { string } from "zod"
+import { Session } from "#models/db.js"
 interface Payload{
     _id:Types.ObjectId,
     role:string
@@ -20,7 +20,12 @@ export const verifyAccessToken=catchAsync(async(req:Request, res:express.Respons
     if(typeof verified === 'string' ||!verified){
         throw new AppError(403, 'Not authorized')
     }
+    
     const payload :Payload = verified as Payload
+    const session = await Session.findOne({userId:payload._id })
+    if(!session){
+        throw new AppError(401, 'Session invalidated')
+    }
     req.userId = payload?._id
     req.userRole = payload?.role
     next()

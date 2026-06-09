@@ -87,8 +87,13 @@ const subscriptinSchema = new mongoose.Schema({
     quantity: {
         type:Number,
         default:1
-
     },
+    // refers to the total number of billing cycles for which the customer will be charged
+    // it defines how many times the customer should be billed during the subscription period
+    // eg; you selected a monthly plan and want the subscription to last 30 years , the total_count is calculated as
+    // total Count = (Number of months in a year * Number of years supported)/interval(1 for every month)
+    // 12*30/1 = 360
+    // this means the customer will be charged 360times, once every monts for 30 years
     total_count:{
         type: Number,
         required:true
@@ -124,6 +129,7 @@ const subscriptinSchema = new mongoose.Schema({
         required:true
 
     },
+    // till when the customer can make the authorization payment
     expire_by:{
         type:Number,
         required:true
@@ -132,11 +138,13 @@ const subscriptinSchema = new mongoose.Schema({
     ended_at : {
         type:Number,
 
-    },    
+    },  
+    // the number of successfully payment made for a subscription
+    // it increment on every successful charge 
     paid_count :{
         type: Number,
-        requird:true
     },
+    // represents the end of the entire subscription period in Unix format
     end_at : {
         type:Number,
         required:true
@@ -145,16 +153,8 @@ const subscriptinSchema = new mongoose.Schema({
     auth_attempts:{
         count:{type:Number, default:0},
         last_attempt_at:Number,
-        next_retry_at:Number
     },
-    // payment failure tracking
-    last_payments_status:{
-        type:String,
-        enum: ['success', 'failed', 'pending']
-    },
-    
-    last_payment_error: String,
-    short_url: String,    
+
 
     
 

@@ -1,5 +1,6 @@
 import { config } from "#config/config.js";
 import { catchAsync } from "#utils/catchAsync.js";
+import { AppError } from "#utils/errorHandler.js";
 import { type Request, type Response, type NextFunction } from "express";
 import Razorpay from 'razorpay'
 
@@ -11,8 +12,7 @@ export const webHook = catchAsync(async (req: Request, res: Response, _next: Nex
 	const isValid = Razorpay.validateWebhookSignature(body, signature, secret)
 
 	if (!isValid) {
-		res.status(400).send({ message: 'Invalid signature' })
-		return
+		throw new AppError(403, 'Invalid webhook signature')
 	}
 
 	res.status(200).send({ message: 'ok' })

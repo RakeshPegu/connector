@@ -19,7 +19,7 @@ const consoleTransport = new winston.transports.Console({
     winston.format.simple()
   )
 })
-
+ 
 const developmentFileRotateTransport = new DailyRotateFile({
   dirname: logDirectory,
   filename: 'app-info-%DATE%.log',
